@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
 
     # Image Label
-    image_path = "solar.jpg"
+    image_path = "images/solar.jpg"
     width, height = 200, 100
     tk_image = load_and_resize_image(image_path, width, height)
     # Create a label to display the image
