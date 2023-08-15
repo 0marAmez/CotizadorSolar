@@ -3,59 +3,8 @@ import openpyxl
 from PIL import Image, ImageTk
 from datetime import date
 from openpyxl.styles import Font
+from  solar import PanelSolar
 
-
-
-inversor = {2000:330 , 
-        2500: 360, 
-        3000: 400,
-        3300: 420,
-        3600:503,
-        4200:520,
-        4600:539,
-        5000:570,
-        6000:610,
-        7000:860,
-        8000:880,
-        9000:1000,
-        10000:1020,
-        }
-def calcular_paneles(kw_bimestral):
-    total_paneles = 0
-
-    total_paneles = (kw_bimestral/0.5)
-
-    total_paneles = (total_paneles /0.6)
-
-    total_paneles = total_paneles/550
-
-    total_paneles = round(total_paneles)
-
-    costo_paneles = total_paneles*145*20 # costo por panel solar
-
-    costo_paneles += (50*20)  # Complementos, siempre 1 gabinete?
-
-    costo_paneles += (650*total_paneles) # aceros alcalde
-
-    costo_paneles += (1000*total_paneles) # mano de obra
-
-    costo_paneles += 1000+1000+500+1500 #Gastos de mano de obra, Cable, Tornillos,Complementos
-
-    return total_paneles,costo_paneles
-
-def calcular_inversor(total_paneles):
-
-    capacidad_instalar = total_paneles*550
-
-    # print(capacidad_instalar)
-
-    modelo_invesor =  min(inversor, key=lambda x: abs(x - capacidad_instalar))
-
-    # print(modelo_invesor)
-
-    costo_invesor = inversor[modelo_invesor]*20
-
-    return (capacidad_instalar/1000),modelo_invesor,costo_invesor
 
 def load_and_resize_image(image_path, width, height):
     # Load the image
@@ -84,8 +33,9 @@ def on_button_click():
     workbook = openpyxl.load_workbook("template/SolarEnergyTemplate.xlsx")
     worksheet = workbook.active
 
-    paneles_info =  calcular_paneles(float(promedio_kw))
-    inversor_info = calcular_inversor(paneles_info[0])
+    paneles =  PanelSolar(float(promedio_kw))
+    paneles.calcular_paneles()
+    paneles.info_inversor()
 
     primernombre = cliente.split()
     worksheet['B11'] = cliente
@@ -96,7 +46,7 @@ def on_button_click():
     worksheet['G11'] = "Testeo"
     worksheet['G12'] = str(numero_de_servicio)
     worksheet['G13'] = "test"
-    worksheet['C21'] = inversor_info[0]
+    worksheet['C21'] = str(paneles.capacidad_instalar)
     worksheet['C22'] = str(promedio_kw) + ' kwh/bimestral'
 
     worksheet['A25'] = "1"
@@ -104,15 +54,15 @@ def on_button_click():
     worksheet['A27'] = "3"
 
     worksheet ['C25'] = "PANEL SOLAR LONGI 550W monocristalino 144 celulas (6x24)"
-    worksheet ['C26'] = "INVERSOR GROWATT "+str(inversor_info[1])+" TLX"
+    worksheet ['C26'] = "INVERSOR GROWATT \n"+str(paneles.modelo_inversor)
     worksheet ['C27'] = "Fabricación y montaje de estructura para 7 módulos, incluye ingeniería, mano de obra, cableado, ductería, tornillería, adoquines, gabinetes y protecciones, puesta en marca de acuerdo a la NOM-001-SEDE-2012 y tramites ante CFE."
 
-    worksheet['F25'] = str(paneles_info[0])
+    worksheet['F25'] = str(paneles.cantidad_de_paneles)
     worksheet['F26'] = "1"
     worksheet['F27'] = "1"
 
-    worksheet['H25'] = str(paneles_info[1])
-    worksheet['H26'] = str(inversor_info[2])
+    worksheet['H25'] = str(paneles.costo_de_paneles)
+    worksheet['H26'] = str(paneles.costo_invesor)
     worksheet['H27'] = "1"
 
 

@@ -1,34 +1,59 @@
 class PanelSolar:
+    kw_bimestral = 0.0 
+    cantidad_de_paneles = 0.0
+    capacidad_instalar = 0.0
+    modelo_inversor = " "
+    costo_invesor = 0.0
+    costo_de_paneles = 0.0
+
+    #Formato del diccionario
+    #Cantida de Paneles : [Modelo del Inversor, Costo del Inversor USD,Costo de Contado, Costo financiado ] 
+    inversor_data = { 
+                     1:["MIC 2000 TL-X","330","?","?"],
+                     2:["MIC 2000 TL-X","330","?","?"],
+                     3:["MIC 2000 TL-X","330","?","?"],
+                     4:["MIC 2500 TL-X","360","$56,542.5","$64,620"],
+                     5:["MIC 3000 TL-X","400","$69,074.5","$78,940"],
+                     6:["MIC 3300 TL-X","420","$90,352.5","$103,260"],
+                     7:["MIN 4200 MTL-X","520","$102,184.5","$116,780"],
+                     8:["MIN 4600 TL-X","540","$112,535.5","$116,780"],
+                     9:["MIN 5000 MTL-X","570","$129,355.5","$147,845"],
+                     10:["MIN 6000 TL-X","610","$139,028.5","$158,890"],
+                     11:["MIN 6000 TL-X","610","?","?"],
+                     12:["MIN 7000 TL-X","860","$179,259.5","$204,868"],
+                     13:["MIN 4200 MTL-X y MIC 3000 TL-X","920","$190,443.5","$217,650"],
+                     14:["MIN 8000 TL-X","880","$202,864.5","$231,845"],
+                     15:["MIN 9000 TL-X","1000","$227,489.5","$274,845"],
+                     16:["MIN 9000 TL-X","1000","$227,489.5","$274,845"],
+                     17:["Dos modulos de MIN 5000 MTL-X","1140","$240,489.5","$274,845"],
+                     18:["Dos modulos de MIN 5000 MTL-X","1140","$240,489.5","$274,845"],
+                     19:["MIN 11400 TL-X","1300","?","?"],
+                     20:["MIN 11400 TL-X","1300","?","?"],
+                     21:["MIN 7000 TL-X y MIN 6000 TL-X","1470","$274,687.5","$336,786"],
+                     22:["MIN 7000 TL-X y MIN 6000 TL-X","1470","$274,687.5","$336,786"],
+                     35:["Dos modulos de MIN 10,000 TL-X","1140","$240,489.5","$274,845"]
+                     }
+    
     def __init__(self,kw_bimestral):
         self.kw_bimestral = kw_bimestral
-        self.inversor = 0
-        #Formato del diccionario
-        # Cantida de Paneles : [Capacidad a instalar, Inversor, PTR, Costo de Contado, Costo financiado] 
-        self.data = {
-            4: [2200.0,2500.0,4.0,56542.5,64620.0],
-            5: [2750.0, 3000.0 ,5.0,69074.5,78940.0],
-            6: [3300.0, 3300.0,6.0,90352.5,103260.0],
-            7: [3850.0,4200.0,7.0,102184.5,116780.0],
-            8: [4400.0,4600.0,8.0,112535.5,116780.0],
-            9: [4950.0,5000.0,9.0,129355.5,147845.0],
-            10: [5500.0,6000.0,10.0,139028.5,158890.0],
-            12: [6600.0, 7000.0,12.0, 179259.5,204868.0],
-            13: [7150.0,4200.0,13.0,190443.5,231845.0],  #<- 4200+3000 Inversor
-            14: [7700.0,8000.0,14.0,202864.5,231845.0],
-            16: [8800.0,9000.0,16.0,227377.5,259,860.0],
-            18: [9900.0,5000.0,18.0,240489.5,274845.0],
-            22: [12100.0,7000.0,22.0,294687.5,336786.0],
-            35: [19250.0,10000.0,35.0,481031.5,549750.0],
-        }
+        #print(self.kw_bimestral)
 
-    def get_value(self, key):
-        return self.data.get(key)
+    def calcular_paneles(self):  
+        self.cantidad_de_paneles = (self.kw_bimestral/0.5)
+        self.cantidad_de_paneles = (self.cantidad_de_paneles /0.6)
+        self.cantidad_de_paneles = (self.cantidad_de_paneles/550)
+        self.cantidad_de_paneles = round(self.cantidad_de_paneles)
+        self.costo_de_paneles = self.cantidad_de_paneles*145*20 # costo por panel solar
+        self.costo_de_paneles += (50*20) # Complementos, siempre 1 gabinete?
+        self.costo_de_paneles += (650*self.cantidad_de_paneles) # aceros alcalde
+        self.costo_de_paneles += (1000*self.cantidad_de_paneles) # mano de obra
+        self.costo_de_paneles += 1000+1000+500+1500 #Gastos de mano de obra, Cable, Tornillos,Complementos
+        #print(self.cantidad_de_paneles)
 
-    def set_value(self, key, value):
-        self.data[key] = value
-
-    # ... other methods for data manipulation ...
-
-
-
-
+    def info_inversor(self):
+        self.capacidad_instalar = (self.cantidad_de_paneles*550)/1000
+        temp = self.inversor_data[ int(self.cantidad_de_paneles)]
+        self.modelo_inversor = temp[0]
+        self.costo_invesor = int(temp[1])*20
+        # print(self.modelo_inversor)
+        # print(self.costo_invesor)
