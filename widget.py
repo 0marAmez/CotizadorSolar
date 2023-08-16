@@ -85,10 +85,6 @@ def on_option_selected(selected_option):
     print("Selected Option:", selected_option)
     
 
-
-
-
-
 if __name__ == "__main__":
 
     # Root Widget
@@ -99,7 +95,7 @@ if __name__ == "__main__":
     create_rectangle_at_top(root, 700, 110, 201, 0, 700, 100, "white")
 
     text_label1 = tk.Label(root, text="COTIZADOR", bg="white", font=("Arial", 18, "bold"), fg="#B2BEB5")
-    text_label1.place(x=550, y=80)  # Set the position of the label
+    text_label1.place(x=550, y=75)  # Set the position of the label
 
 
 
@@ -116,57 +112,78 @@ if __name__ == "__main__":
 
     # Create the input box (Nombre del recibo)
     text_label1 = tk.Label(root, text="Nombre del recibo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label1.place(x=75, y=180)  # Set the position of the label
-    entry1 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black")
-    entry1.place(x=40, y=200)
+    text_label1.place(x=35, y=130)  # Set the position of the label
+    entry1 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry1.place(x=15, y=160)
 
 
-    # Create the input box (Numero de Servicio)
-    text_label2 = tk.Label(root, text="Numero de Servicio", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label2.place(x=335, y=180)  # Set the position of the label
-    entry2 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black")
-    entry2.place(x=300, y=200)
+    # Create the input box (Correo)
+    text_label2 = tk.Label(root, text="Correo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label2.place(x=355, y=130)  # Set the position of the label
+    entry2 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry2.place(x=300, y=160)
 
 
     # Create the input box (Direccion)
     text_label3 = tk.Label(root, text="Direccion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label3.place(x=100, y=280)  # Set the position of the label
-    entry3 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black")
-    entry3.place(x=40, y=300)
+    text_label3.place(x=65, y=200)  # Set the position of the label
+    entry3 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry3.place(x=15, y=230)
+
+
+    # Create the input box (Numero De Servicio)
+    text_label3 = tk.Label(root, text="No. de Servicio", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label3.place(x=335, y=200)  # Set the position of the label
+    entry3 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry3.place(x=300, y=230)
+
 
 
     # Create the input box (Vendedor)
     text_label4 = tk.Label(root, text="Vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label4.place(x=360, y=280)  # Set the position of the label
-    entry4 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black")
-    entry4.place(x=300, y=300)
+    text_label4.place(x=65, y=270)  # Set the position of the label
+    entry4 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry4.place(x=15, y=300)
 
 
     # Create the input box (Opciones)
     text_label5 = tk.Label(root, text="Seleccione una Opcion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label5.place(x=65, y=380)  # Set the position of the label
+    text_label5.place(x=315, y=270)  # Set the position of the label
     options = ["01", "PBDT", "DAC", "GDMTO"]
     selected_option = tk.StringVar(root)
     selected_option.set(options[0])  # Set the default selected option
     option_menu = tk.OptionMenu(root, selected_option, *options, command=on_option_selected)
-    option_menu.config(width=15,anchor="center")  # Set a fixed width of 15 characters for the menu
-    option_menu.configure(bg=root.cget("bg"))  # Set the background color of the menu to be white
-    option_menu["menu"].configure(bg="white")  # Set the background color of the dropdown menu
-    option_menu["menu"].configure(fg="black")  # Set the color of the letters (text) in the drop-down menu to blue
-    option_menu.place(x=40, y=400)
+    option_menu.config(width=15, anchor="center", bg="white", fg="black")  # Set background and text color of the menu
+    option_menu["menu"].config(bg="white", fg="black")  # Set background and text color of the dropdown menu
+    option_menu.place(x=300, y=300, width=200)
 
 
-    # Create the input box (Opciones)
+
+    # Create the input box (Promedio Bimestral)
     text_label6 = tk.Label(root, text="Promedio Bimestral", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label6.place(x=335, y=380)  # Set the position of the label
-    entry6 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black")
-    entry6.place(x=300, y=400)
+    text_label6.place(x=35, y=340)  # Set the position of the label
+    entry6 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry6.place(x=15, y=370)
+
+
+    # Create the input box (?)
+    text_label7 = tk.Label(root, text="Random", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label7.place(x=355, y=340)  # Set the position of the label
+    entry7 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry7.place(x=300, y=370)
+
+    text_label8 = tk.Label(root, text="Nota del vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label8.place(x=195, y=410)  # Set the position of the label
+    entry8 = tk.Text(root, bg="white",highlightthickness=0 ,relief=tk.FLAT,fg="black", width=30, height=5)  # Adjust the height as needed
+    entry8.place(x=150, y=430)
+
+
 
 
 
     # Create a button to read the input and print it
-    button = tk.Button(root, bg="white", text="Submit", command=on_button_click, relief=tk.FLAT, highlightthickness=0, highlightbackground="#FCD12A")
-    button.place(x=550, y=500)
+    button = tk.Button(root, bg="#D3D3D3", text="Submit", command=on_button_click, highlightbackground="#FCD12A",font=("Arial", 12, "bold"))
+    button.place(x=550, y=500,width=100, height=40)
 
 
     root.mainloop()
