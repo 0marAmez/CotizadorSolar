@@ -57,3 +57,6 @@ class PanelSolar:
         self.costo_invesor = int(temp[1])*20
         # print(self.modelo_inversor)
         # print(self.costo_invesor)
+
+
+        #QUE ONDA CHISTO
