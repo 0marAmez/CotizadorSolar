@@ -25,10 +25,10 @@ def create_rectangle_at_top(widget, width, height, x1, y1, x2, y2, rectangle_col
 
 def on_button_click():
     cliente = entry1.get()
-    numero_de_servicio = entry2.get()
     direccion = entry3.get()
-    vendedor = entry4.get()
-    promedio_kw =entry6.get()
+    numero_de_servicio = entry4.get()
+    vendedor = entry5.get()
+    promedio_kw = entry6.get()
 
     workbook = openpyxl.load_workbook("template/SolarEnergyTemplate.xlsx")
     worksheet = workbook.active
@@ -38,41 +38,67 @@ def on_button_click():
     paneles.info_inversor()
 
     primernombre = cliente.split()
-    worksheet['B11'] = cliente
-    worksheet['E3'] = 'Aguascalientes, Ags  '+ str(date.today())
-    worksheet['E6'] = vendedor
-    worksheet['B13'] = direccion
-    # worksheet['G11'] = date.strftime("%b")[0]+"1234"
-    worksheet['G11'] = "Testeo"
-    worksheet['G12'] = str(numero_de_servicio)
-    worksheet['G13'] = "test"
-    worksheet['C21'] = str(paneles.capacidad_instalar)
-    worksheet['C22'] = str(promedio_kw) + ' kwh/bimestral'
+    worksheet['F9'] = 'Aguascalientes, Ags  '+ str(date.today())
+    worksheet['C12'] = cliente
+    worksheet['C13'] = direccion
+    worksheet['I13'] = numero_de_servicio
 
-    worksheet['A25'] = "1"
-    worksheet['A26'] = "2"
-    worksheet['A27'] = "3"
+    worksheet['D22'] = promedio_kw + " kwh/bm"
+    worksheet['D23'] = str(paneles.capacidad_instalar)+" kwp"
+    #worksheet['G24'] = "Produccion del Sistema!"
 
-    worksheet ['C25'] = "PANEL SOLAR LONGI 550W monocristalino 144 celulas (6x24)"
-    worksheet ['C26'] = "INVERSOR GROWATT \n"+str(paneles.modelo_inversor)
-    worksheet ['C27'] = "Fabricación y montaje de estructura para 7 módulos, incluye ingeniería, mano de obra, cableado, ductería, tornillería, adoquines, gabinetes y protecciones, puesta en marca de acuerdo a la NOM-001-SEDE-2012 y tramites ante CFE."
 
-    worksheet['F25'] = str(paneles.cantidad_de_paneles)
-    worksheet['F26'] = "1"
-    worksheet['F27'] = "1"
+    worksheet['F28'] = paneles.cantidad_de_paneles
+    worksheet['C31'] = "Inversor GROWATT "+paneles.modelo_inversor
+    worksheet['F31'] = paneles.cantidad_inversores
 
-    worksheet['H25'] = str(paneles.costo_de_paneles)
-    worksheet['H26'] = str(paneles.costo_invesor)
-    worksheet['H27'] = "1"
+
+    worksheet['B47'] = "Lic "+vendedor
+
+
+
+
+
+    
+    
+
+    # worksheet['E6'] = vendedor
+    # worksheet['B13'] = direccion
+    # # worksheet['G11'] = date.strftime("%b")[0]+"1234"
+    # worksheet['G11'] = "Testeo"
+    # worksheet['G12'] = str(numero_de_servicio)
+    # worksheet['G13'] = "test"
+    # worksheet['C21'] = str(paneles.capacidad_instalar)
+    # worksheet['C22'] = str(promedio_kw) + ' kwh/bimestral'
+
+    # worksheet['A25'] = "1"
+    # worksheet['A26'] = "2"
+    # worksheet['A27'] = "3"
+
+    # worksheet ['C25'] = "PANEL SOLAR LONGI 550W monocristalino 144 celulas (6x24)"
+    # worksheet ['C26'] = "INVERSOR GROWATT \n"+str(paneles.modelo_inversor)
+    # worksheet ['C27'] = "Fabricación y montaje de estructura para 7 módulos, incluye ingeniería, mano de obra, cableado, ductería, tornillería, adoquines, gabinetes y protecciones, puesta en marca de acuerdo a la NOM-001-SEDE-2012 y tramites ante CFE."
+
+    # worksheet['F25'] = str(paneles.cantidad_de_paneles)
+    # worksheet['F26'] = "1"
+    # worksheet['F27'] = "1"
+
+    # worksheet['H25'] = str(paneles.costo_de_paneles)
+    # worksheet['H26'] = str(paneles.costo_invesor)
+    # worksheet['H27'] = "1"
 
 
 
     bold_font = Font(bold=True)
-    worksheet['B11'].font = bold_font
-    worksheet['B13'].font = bold_font
-    worksheet['G11'].font = bold_font
-    worksheet['G12'].font = bold_font
-    worksheet['G13'].font = bold_font
+    worksheet['D22'].font = bold_font
+    worksheet['D23'].font = bold_font
+    worksheet['B47'].font = bold_font
+
+    # worksheet['G11'].font = bold_font
+    # worksheet['G12'].font = bold_font
+    # worksheet['G13'].font = bold_font
+
+
 
     new_file_name = f"{primernombre[0]+str(date.today())}_cotizacion.xlsx"
     cotizacion = 'cotizaciones/' +new_file_name
@@ -111,44 +137,44 @@ if __name__ == "__main__":
 
 
     # Create the input box (Nombre del recibo)
-    text_label1 = tk.Label(root, text="Nombre del recibo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label1.place(x=35, y=130)  # Set the position of the label
+    text_label2 = tk.Label(root, text="Nombre del recibo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label2.place(x=35, y=130)  # Set the position of the label
     entry1 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry1.place(x=15, y=160)
 
 
     # Create the input box (Correo)
-    text_label2 = tk.Label(root, text="Correo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label2.place(x=355, y=130)  # Set the position of the label
+    text_label3 = tk.Label(root, text="Correo", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label3.place(x=355, y=130)  # Set the position of the label
     entry2 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry2.place(x=300, y=160)
 
 
     # Create the input box (Direccion)
-    text_label3 = tk.Label(root, text="Direccion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label3.place(x=65, y=200)  # Set the position of the label
+    text_label4 = tk.Label(root, text="Direccion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label4.place(x=65, y=200)  # Set the position of the label
     entry3 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry3.place(x=15, y=230)
 
 
     # Create the input box (Numero De Servicio)
-    text_label3 = tk.Label(root, text="No. de Servicio", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label3.place(x=335, y=200)  # Set the position of the label
-    entry3 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
-    entry3.place(x=300, y=230)
+    text_label5 = tk.Label(root, text="No. de Servicio", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label5.place(x=335, y=200)  # Set the position of the label
+    entry4 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry4.place(x=300, y=230)
 
 
 
     # Create the input box (Vendedor)
-    text_label4 = tk.Label(root, text="Vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label4.place(x=65, y=270)  # Set the position of the label
-    entry4 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
-    entry4.place(x=15, y=300)
+    text_label6 = tk.Label(root, text="Vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label6.place(x=65, y=270)  # Set the position of the label
+    entry5 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
+    entry5.place(x=15, y=300)
 
 
     # Create the input box (Opciones)
-    text_label5 = tk.Label(root, text="Seleccione una Opcion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label5.place(x=315, y=270)  # Set the position of the label
+    text_label7 = tk.Label(root, text="Seleccione una Opcion", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label7.place(x=315, y=270)  # Set the position of the label
     options = ["01", "PBDT", "DAC", "GDMTO"]
     selected_option = tk.StringVar(root)
     selected_option.set(options[0])  # Set the default selected option
@@ -160,20 +186,20 @@ if __name__ == "__main__":
 
 
     # Create the input box (Promedio Bimestral)
-    text_label6 = tk.Label(root, text="Promedio Bimestral", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label6.place(x=35, y=340)  # Set the position of the label
+    text_label8 = tk.Label(root, text="Promedio Bimestral", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label8.place(x=35, y=340)  # Set the position of the label
     entry6 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry6.place(x=15, y=370)
 
 
     # Create the input box (?)
-    text_label7 = tk.Label(root, text="Random", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label7.place(x=355, y=340)  # Set the position of the label
+    text_label9 = tk.Label(root, text="Random", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label9.place(x=355, y=340)  # Set the position of the label
     entry7 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry7.place(x=300, y=370)
 
-    text_label8 = tk.Label(root, text="Nota del vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
-    text_label8.place(x=195, y=410)  # Set the position of the label
+    text_label10 = tk.Label(root, text="Nota del vendedor", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label10.place(x=195, y=410)  # Set the position of the label
     entry8 = tk.Text(root, bg="white",highlightthickness=0 ,relief=tk.FLAT,fg="black", width=30, height=5)  # Adjust the height as needed
     entry8.place(x=150, y=430)
 
