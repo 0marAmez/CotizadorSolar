@@ -45,7 +45,12 @@ def on_button_click():
 
     worksheet['D22'] = promedio_kw + " kwh/bm"
     worksheet['D23'] = str(paneles.capacidad_instalar)+" kwp"
-    #worksheet['G24'] = "Produccion del Sistema!"
+    produccion = 0.0
+    produccion = paneles.calcular_paneles*550
+    produccion = produccion/1000
+    produccion = produccion*5
+    produccion = produccion*60
+    worksheet['G24'] = str(produccion)+" kwh/bm"
 
 
     worksheet['F28'] = paneles.cantidad_de_paneles
