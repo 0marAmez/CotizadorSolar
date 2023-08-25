@@ -51,6 +51,7 @@ class PanelSolar:
         self.costo_de_paneles += (650*self.cantidad_de_paneles) # aceros alcalde
         self.costo_de_paneles += (1000*self.cantidad_de_paneles) # mano de obra
         self.costo_de_paneles += 1000+1000+500+1500 #Gastos de mano de obra, Cable, Tornillos,Complementos
+        self.costo_de_paneles += (self.costo_de_paneles*0.4) # mas el 40% del precio
         #print(self.cantidad_de_paneles)
 
     def info_inversor(self):

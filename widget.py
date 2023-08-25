@@ -46,11 +46,11 @@ def on_button_click():
     worksheet['D22'] = promedio_kw + " kwh/bm"
     worksheet['D23'] = str(paneles.capacidad_instalar)+" kwp"
     produccion = 0.0
-    produccion = paneles.calcular_paneles*550
+    produccion = paneles.cantidad_de_paneles*550
     produccion = produccion/1000
     produccion = produccion*5
     produccion = produccion*60
-    worksheet['G24'] = str(produccion)+" kwh/bm"
+    worksheet['D24'] = str(int(produccion))+" kwh/bm"
 
 
     worksheet['F28'] = paneles.cantidad_de_paneles
@@ -61,48 +61,11 @@ def on_button_click():
     worksheet['B47'] = "Lic "+vendedor
 
 
-
-
-
-    
-    
-
-    # worksheet['E6'] = vendedor
-    # worksheet['B13'] = direccion
-    # # worksheet['G11'] = date.strftime("%b")[0]+"1234"
-    # worksheet['G11'] = "Testeo"
-    # worksheet['G12'] = str(numero_de_servicio)
-    # worksheet['G13'] = "test"
-    # worksheet['C21'] = str(paneles.capacidad_instalar)
-    # worksheet['C22'] = str(promedio_kw) + ' kwh/bimestral'
-
-    # worksheet['A25'] = "1"
-    # worksheet['A26'] = "2"
-    # worksheet['A27'] = "3"
-
-    # worksheet ['C25'] = "PANEL SOLAR LONGI 550W monocristalino 144 celulas (6x24)"
-    # worksheet ['C26'] = "INVERSOR GROWATT \n"+str(paneles.modelo_inversor)
-    # worksheet ['C27'] = "Fabricación y montaje de estructura para 7 módulos, incluye ingeniería, mano de obra, cableado, ductería, tornillería, adoquines, gabinetes y protecciones, puesta en marca de acuerdo a la NOM-001-SEDE-2012 y tramites ante CFE."
-
-    # worksheet['F25'] = str(paneles.cantidad_de_paneles)
-    # worksheet['F26'] = "1"
-    # worksheet['F27'] = "1"
-
-    # worksheet['H25'] = str(paneles.costo_de_paneles)
-    # worksheet['H26'] = str(paneles.costo_invesor)
-    # worksheet['H27'] = "1"
-
-
-
     bold_font = Font(bold=True)
     worksheet['D22'].font = bold_font
     worksheet['D23'].font = bold_font
+    worksheet['D24'].font = bold_font
     worksheet['B47'].font = bold_font
-
-    # worksheet['G11'].font = bold_font
-    # worksheet['G12'].font = bold_font
-    # worksheet['G13'].font = bold_font
-
 
 
     new_file_name = f"{primernombre[0]+str(date.today())}_cotizacion.xlsx"
@@ -207,9 +170,6 @@ if __name__ == "__main__":
     text_label10.place(x=195, y=410)  # Set the position of the label
     entry8 = tk.Text(root, bg="white",highlightthickness=0 ,relief=tk.FLAT,fg="black", width=30, height=5)  # Adjust the height as needed
     entry8.place(x=150, y=430)
-
-
-
 
 
     # Create a button to read the input and print it
