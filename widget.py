@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
 
     # Create the input box (?)
-    text_label9 = tk.Label(root, text="Random", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
+    text_label9 = tk.Label(root, text="Numero de venta", bg="#FCD12A", font=("Arial", 12, "bold"), fg="black")
     text_label9.place(x=355, y=340)  # Set the position of the label
     entry7 = tk.Entry(root,bg="white",highlightthickness=0, relief=tk.FLAT,fg="black",width=30)
     entry7.place(x=300, y=370)
