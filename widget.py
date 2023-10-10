@@ -1,5 +1,6 @@
 import tkinter as tk
 import openpyxl
+import matplotlib
 from PIL import Image, ImageTk
 from datetime import date
 from openpyxl.styles import Font
