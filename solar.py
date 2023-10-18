@@ -39,7 +39,7 @@ class PanelSolar:
         self.kw_bimestral = kw_bimestral
         #print(self.kw_bimestral)
 
-    def calcular_paneles(self):  
+    def calcular_paneles(self):  #agregar 40% del total
         self.cantidad_de_paneles = (self.kw_bimestral/0.5)
         self.cantidad_de_paneles = (self.cantidad_de_paneles /0.6)
         self.cantidad_de_paneles = (self.cantidad_de_paneles/550)
