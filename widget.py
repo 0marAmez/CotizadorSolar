@@ -1,10 +1,15 @@
 import tkinter as tk
 import openpyxl
-import matplotlib  
+import math
+import locale
 from PIL import Image, ImageTk
 from datetime import date
 from openpyxl.styles import Font
 from  solar import PanelSolar
+from graph import create_bar_graph
+from openpyxl.drawing.image import Image as xlImage
+
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 # Create a dictionary to store the entry widgets
 entry_widgets = {}
@@ -38,6 +43,44 @@ def create_label_and_entry(root, label_text, entry_bg, entry_fg, entry_width, la
     # Store a reference to the entry widget in the dictionary
     entry_widgets[label_text] = entry
 
+def on_button_click_pop_window():
+    
+    valores_bimestrales = []
+    periodo_bimestrales = []
+    # Guarda los valores del menu de promedios
+    valores_bimestrales.append(float(entry_widgets["Bimestre I"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre I"].get())
+    valores_bimestrales.append(float(entry_widgets["Bimestre II"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre II"].get())
+    valores_bimestrales.append(float(entry_widgets["Bimestre III"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre III"].get())
+    valores_bimestrales.append(float(entry_widgets["Bimestre IV"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre IV"].get())
+    valores_bimestrales.append(float(entry_widgets["Bimestre V"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre V"].get())
+    valores_bimestrales.append(float(entry_widgets["Bimestre VI"].get()))
+    periodo_bimestrales. append(entry_widgets["Periodo del Bimestre VI"].get())
+
+
+    # Calcula el promedio
+    total = sum(valores_bimestrales)
+    average = total / len(valores_bimestrales)
+    entry_widgets["Promedio"] = str(average)
+
+
+    produccion_del_sistema = (average/0.5)
+    produccion_del_sistema = (produccion_del_sistema /0.6)
+    produccion_del_sistema = (produccion_del_sistema /550) # cantidad de paneles
+    produccion_del_sistema = math.ceil(produccion_del_sistema) # ajustar al entero mas cercano
+    produccion_del_sistema = produccion_del_sistema*550 
+    produccion_del_sistema = (produccion_del_sistema/1000)*5*60 # produccion_del_sistema
+
+    solar_energy_bimestre = [produccion_del_sistema for _ in range(6)]
+
+    # Crea grafo
+    create_bar_graph(solar_energy_bimestre,valores_bimestrales,periodo_bimestrales)
+
+
 def open_promedio_bimestral_window():
     # Create a new window
     promedio_window = tk.Toplevel(root)
@@ -65,7 +108,7 @@ def open_promedio_bimestral_window():
     create_label_and_entry(promedio_window, "Periodo del Bimestre VI", "white", "black", 30, 305, 515, 305, 550)
 
     # Create a button to close the new window
-    close_button = tk.Button(promedio_window, text="Cerrar", command=promedio_window.destroy)
+    close_button = tk.Button(promedio_window, text="Guardar", command=on_button_click_pop_window)
     close_button.place(x=450, y=600)
 
 def on_button_click():
@@ -75,70 +118,73 @@ def on_button_click():
     no_cotizacion = entry_widgets["No. de Cotizacion"].get()
     no_servicio = entry_widgets["Numero de Servicio"].get()
     vendedor = entry_widgets["Vendedor"].get()
-    print(cliente)
-    print(direccion)
-    print(no_cotizacion)
-    print(no_servicio)
-    print(vendedor)
-    # direccion = entry3.get()
-    # numero_de_servicio = entry4.get()s
-    # vendedor = entry5.get()
-    # promedios_kw = entry6.get()
-
-    #Separa el promedio y para calcular el grafo
-    # split_list = promedios_kw.split(',')
-    # float_array = [float(num) for num in split_list]
-    # promedio = sum(float_array) / len(float_array)
+    tarifa = entry_widgets["Tarifa"]
+    promedio = round(float((entry_widgets["Promedio"])))
 
 
+    workbook = openpyxl.load_workbook("template/SolarEnergyTemplate.xlsx")
+    worksheet = workbook.active
 
-    # workbook = openpyxl.load_workbook("template/SolarEnergyTemplate.xlsx")
-    # worksheet = workbook.active
+    paneles =  PanelSolar(promedio)
+    paneles.calcular_paneles()
+    paneles.info_inversor()
 
-    # paneles =  PanelSolar(promedio)
-    # paneles.calcular_paneles()
-    # paneles.info_inversor()
-
-    # primernombre = cliente.split()
-    # worksheet['F9'] = 'Aguascalientes, Ags  '+ str(date.today())
-    # worksheet['C12'] = cliente
-    # worksheet['C13'] = direccion
-    # worksheet['I13'] = numero_de_servicio
-
-    # worksheet['D22'] = str(promedio) + " kwh/bm"
-    # worksheet['D23'] = str(paneles.capacidad_instalar)+" kwp"
-    # produccion = 0.0
-    # produccion = paneles.cantidad_de_paneles*550
-    # produccion = produccion/1000
-    # produccion = produccion*5
-    # produccion = produccion*60
-    # worksheet['D24'] = str(int(produccion))+" kwh/bm"
+    nombre_completo = cliente.split()
+    worksheet['F9'] = 'Aguascalientes, Ags  '+ str(date.today())
+    worksheet['C12'] = cliente
+    worksheet['C13'] = direccion
+    worksheet['I12'] = no_cotizacion
+    worksheet['I13'] = no_servicio
+    worksheet['H14'] = tarifa
 
 
-    # worksheet['F28'] = paneles.cantidad_de_paneles
-    # worksheet['C31'] = "Inversor GROWATT "+paneles.modelo_inversor
-    # worksheet['F31'] = paneles.cantidad_inversores
+    worksheet['D22'] = str(round(promedio)) + " kwh/bimestrales"
+    worksheet['D23'] = str(paneles.capacidad_instalar)+" kwp"
+    worksheet['D24'] = str(round(paneles.produccion_del_sistema))+" kwh/bm"
+
+    # Paneles
+    worksheet['F28'] = paneles.cantidad_de_paneles
+    worksheet['G28'] = locale.currency(paneles.costo_de_paneles, grouping=True)
+    # Inversor
+    worksheet['C31'] = "Inversor GROWATT "+paneles.modelo_inversor
+    worksheet['F31'] = paneles.cantidad_inversores
+    worksheet['G31'] = locale.currency(paneles.costo_invesor, grouping=True)
+    # Mano de Obra
+    worksheet['G34'] = locale.currency(paneles.costo_de_obra, grouping=True)
+    # Total
+    worksheet['G45'] = locale.currency(paneles.costo_de_obra+paneles.costo_de_paneles+paneles.costo_invesor, grouping=True)
+
+    # Vendedor
+    worksheet['B47'] = "Lic. "+vendedor
+
+    # Save the image to a file (replace 'your_image.png' with the actual image file)
+    image_file = 'plot.png'
+
+    # Insert the image into cell B54
+    image_file = 'plot.png'
+
+    # Insert the image into cell B54
+    img = xlImage(image_file)
+    worksheet.add_image(img, 'B54')
 
 
-    # worksheet['B47'] = "Lic "+vendedor
+    bold_font = Font(bold=True)
+    worksheet['D22'].font = bold_font
+    worksheet['D23'].font = bold_font
+    worksheet['D24'].font = bold_font
+    worksheet['B47'].font = bold_font
 
 
-    # bold_font = Font(bold=True)
-    # worksheet['D22'].font = bold_font
-    # worksheet['D23'].font = bold_font
-    # worksheet['D24'].font = bold_font
-    # worksheet['B47'].font = bold_font
+    new_file_name = f"{nombre_completo[0]+'_'+nombre_completo[2]+str(date.today())}_cotizacion.xlsx"
+    cotizacion = 'cotizaciones/' +new_file_name
 
-
-    # new_file_name = f"{primernombre[0]+str(date.today())}_cotizacion.xlsx"
-    # cotizacion = 'cotizaciones/' +new_file_name
-
-    # workbook.save(cotizacion)
-    # workbook.close()
+    workbook.save(cotizacion)
+    workbook.close()
 
 
 def on_option_selected(selected_option):
-    print("Selected Option:", selected_option)
+    # print("Selected Option:", selected_option)
+    entry_widgets["Tarifa"] = selected_option
     
 
 if __name__ == "__main__":
@@ -192,7 +238,7 @@ if __name__ == "__main__":
     create_label_and_entry(root, "Vendedor", "white", "black", 35, 220, 430, 160, 460)
 
     # Create a button to read the input and print it
-    button = tk.Button(root, bg="#D3D3D3", fg="black", text="Cerrar", command=on_button_click, font=("Arial", 12, "bold"))
+    button = tk.Button(root, bg="#D3D3D3", fg="black", text="Submit", command=on_button_click, font=("Arial", 12, "bold"))
     button.place(x=550, y=500,width=100, height=40)
 
 

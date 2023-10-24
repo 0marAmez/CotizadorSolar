@@ -1,3 +1,4 @@
+import math
 class PanelSolar:
     kw_bimestral = 0.0 
     cantidad_de_paneles = 0.0
@@ -6,6 +7,8 @@ class PanelSolar:
     cantidad_inversores = 0
     costo_invesor = 0.0
     costo_de_paneles = 0.0
+    costo_de_obra = 0.0
+    produccion_del_sistema = 0.0
 
     #Formato del diccionario
     #Cantida de Paneles : [Modelo del Inversor, Costo del Inversor, Cantidad de inversores, USD,Costo de Contado, Costo financiado ] 
@@ -39,26 +42,31 @@ class PanelSolar:
         self.kw_bimestral = kw_bimestral
         #print(self.kw_bimestral)
 
-    def calcular_paneles(self):  #agregar 40% del total
+    def calcular_paneles(self):
+        # Calcula cantidad de paneles
         self.cantidad_de_paneles = (self.kw_bimestral/0.5)
         self.cantidad_de_paneles = (self.cantidad_de_paneles /0.6)
         self.cantidad_de_paneles = (self.cantidad_de_paneles/550)
-        self.cantidad_de_paneles = round(self.cantidad_de_paneles)
+        self.cantidad_de_paneles =  math.ceil(self.cantidad_de_paneles)
         if self.cantidad_de_paneles<4:
             self.cantidad_de_paneles = 4
+
+        # Calcula gastos de los paneles
         self.costo_de_paneles = self.cantidad_de_paneles*145*20 # costo por panel solar
-        self.costo_de_paneles += (50*20) # Complementos, siempre 1 gabinete?
-        self.costo_de_paneles += (650*self.cantidad_de_paneles) # aceros alcalde
-        self.costo_de_paneles += (1000*self.cantidad_de_paneles) # mano de obra
-        self.costo_de_paneles += 1000+1000+500+1500 #Gastos de mano de obra, Cable, Tornillos,Complementos
-        self.costo_de_paneles += (self.costo_de_paneles*0.4) # mas el 40% del precio
-        #print(self.cantidad_de_paneles)
+        self.costo_de_paneles = self.costo_de_paneles + (self.costo_de_paneles*0.5)
+        # Calcula gastos de la obra
+        self.costo_de_obra = (50.0*20.0)+(650*self.cantidad_de_paneles)+(1000*self.cantidad_de_paneles)+(1000+1000+500+1500)
+        self.costo_de_obra = self.costo_de_obra + (self.costo_de_obra*0.5)
 
     def info_inversor(self):
+
         self.capacidad_instalar = (self.cantidad_de_paneles*550)/1000
+        self.produccion_del_sistema = (self.capacidad_instalar) *5*60
+        # Obtiene el modelo inversor
         temp = self.inversor_data[ int(self.cantidad_de_paneles)]
         self.modelo_inversor = temp[0]
+        # Calcula gasto del inversor
         self.costo_invesor = int(temp[1])*20
+        self.costo_invesor = self.costo_invesor+(self.costo_invesor*0.5)
+        # Obtiene la cantidad de inversores
         self.cantidad_inversores = int(temp[2])
-        # print(self.modelo_inversor)
-        # print(self.costo_invesor)
