@@ -50,13 +50,16 @@ class PanelSolar:
         self.cantidad_de_paneles =  math.ceil(self.cantidad_de_paneles)
         if self.cantidad_de_paneles<4:
             self.cantidad_de_paneles = 4
-
+        # mas dos paneles extra
+        self.cantidad_de_paneles = self.cantidad_de_paneles+2
         # Calcula gastos de los paneles
         self.costo_de_paneles = self.cantidad_de_paneles*145*20 # costo por panel solar
-        self.costo_de_paneles = self.costo_de_paneles + (self.costo_de_paneles*0.5)
+        self.costo_de_paneles =  (self.costo_de_paneles*2.5)
+        #self.costo_de_paneles = self.costo_de_paneles + (self.costo_de_paneles*0.5)
         # Calcula gastos de la obra
         self.costo_de_obra = (50.0*20.0)+(650*self.cantidad_de_paneles)+(1000*self.cantidad_de_paneles)+(1000+1000+500+1500)
-        self.costo_de_obra = self.costo_de_obra + (self.costo_de_obra*0.5)
+        #self.costo_de_obra = self.costo_de_obra + (self.costo_de_obra*0.5)
+        self.costo_de_obra = (self.costo_de_obra*2.5)
 
     def info_inversor(self):
 
@@ -67,6 +70,7 @@ class PanelSolar:
         self.modelo_inversor = temp[0]
         # Calcula gasto del inversor
         self.costo_invesor = int(temp[1])*20
-        self.costo_invesor = self.costo_invesor+(self.costo_invesor*0.5)
+        #self.costo_invesor = self.costo_invesor+(self.costo_invesor*0.5)
+        self.costo_de_obra = (self.costo_de_obra*2.5)
         # Obtiene la cantidad de inversores
         self.cantidad_inversores = int(temp[2])

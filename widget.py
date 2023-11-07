@@ -174,7 +174,6 @@ def on_button_click():
     worksheet['D24'].font = bold_font
     worksheet['B47'].font = bold_font
 
-
     new_file_name = f"{nombre_completo[0]+'_'+nombre_completo[2]+str(date.today())}_cotizacion.xlsx"
     cotizacion = 'cotizaciones/' +new_file_name
 
